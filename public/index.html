@@ -65,10 +65,12 @@
     </div>
 
     <script>
-      // Classe de la logique métier simplifiée
+      // Classe de la logique métier simplifiée avec persistance via localStorage
       class CalculatorUI {
         constructor() {
-          this.history = [];
+          // Charger l'historique depuis le localStorage s'il existe
+          const storedHistory = localStorage.getItem("calculatorHistory");
+          this.history = storedHistory ? JSON.parse(storedHistory) : [];
         }
         add(a, b) {
           return a + b;
@@ -82,10 +84,17 @@
         saveToHistory(a, operator, b, result) {
           const entry = { a, operator, b, result };
           this.history.push(entry);
+          // Mettre à jour le localStorage avec le nouvel historique
+          localStorage.setItem(
+            "calculatorHistory",
+            JSON.stringify(this.history)
+          );
           return entry;
         }
         clearHistory() {
           this.history = [];
+          // Supprimer l'historique du localStorage
+          localStorage.removeItem("calculatorHistory");
         }
       }
 
@@ -160,17 +169,23 @@
       });
 
       function renderHistory() {
-        historyDiv.innerHTML =
-          '<h2 class="text-lg font-semibold">History:</h2>';
-        calculator.history.forEach((entry) => {
-          const div = document.createElement("div");
-          div.textContent = `${entry.a} ${entry.operator} ${entry.b} = ${entry.result}`;
-          historyDiv.appendChild(div);
-        });
+        // Afficher le titre uniquement si l'historique contient des entrées
+        if (calculator.history.length === 0) {
+          historyDiv.innerHTML = "";
+        } else {
+          historyDiv.innerHTML =
+            '<h2 class="text-lg font-semibold">History:</h2>';
+          calculator.history.forEach((entry) => {
+            const div = document.createElement("div");
+            div.textContent = `${entry.a} ${entry.operator} ${entry.b} = ${entry.result}`;
+            historyDiv.appendChild(div);
+          });
+        }
       }
 
-      // Initialisation de l'état des boutons
+      // Initialisation de l'état des boutons et affichage de l'historique sauvegardé
       updateOperatorButtons();
+      renderHistory();
     </script>
   </body>
 </html>
