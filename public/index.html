@@ -156,7 +156,7 @@
 
       document.getElementById("clear-history").addEventListener("click", () => {
         calculator.clearHistory();
-        historyDiv.innerHTML = "";
+        renderHistory();
       });
 
       function renderHistory() {
