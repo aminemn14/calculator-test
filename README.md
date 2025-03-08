@@ -8,16 +8,16 @@ Ensure you have [Node.js](https://nodejs.org/) installed, then follow these step
 
 1. **Clone the repository:**
 
-   ```bash
-   git clone https://github.com/aminemn14/calculator-test.git
-   cd calculator-project
-   ```
+```bash
+git clone https://github.com/aminemn14/calculator-test.git
+cd calculator-test
+```
 
 2. **Install dependencies:**
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
 ## Running the tests
 
@@ -25,33 +25,33 @@ Ensure you have [Node.js](https://nodejs.org/) installed, then follow these step
 
 To run the unit tests, use:
 
-    ```bash
-    npm run test:unit
-    ```
+```bash
+npm install
+```
 
 ### End-to-End Tests (Playwright)
 
 To run the end-to-end tests, use:
 
-    ```bash
-    npm run test:e2e
-    ```
+```bash
+npm run test:e2e
+```
 
 ### All Tests (Unit + E2E)
 
 To run all tests, use:
 
-    ```bash
-    npm run test
-    ```
+```bash
+npm run test
+```
 
 ### Linting
 
 To check the code quality with ESLint, use:
 
-    ```bash
-    npm run lint
-    ```
+```bash
+npm run lint
+```
 
 ### Project Structure
 
