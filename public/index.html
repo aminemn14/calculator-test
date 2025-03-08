@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-6 rounded shadow-md w-full max-w-md">
+      <h1 class="text-2xl font-bold mb-6 text-center">Calculator</h1>
+      <!-- Zone d'inputs et opérateurs en flex -->
+      <div class="flex items-center mb-4 space-x-4">
+        <input
+          id="num1"
+          type="number"
+          placeholder="Number 1"
+          class="border p-2 rounded w-full"
+        />
+        <!-- Colonne des boutons d'opération -->
+        <div class="flex flex-col space-y-2">
+          <button
+            data-operation="add"
+            class="operator-btn bg-blue-500 text-white p-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+          >
+            +
+          </button>
+          <button
+            data-operation="subtract"
+            class="operator-btn bg-blue-500 text-white p-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+          >
+            −
+          </button>
+          <button
+            data-operation="multiply"
+            class="operator-btn bg-blue-500 text-white p-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+          >
+            ×
+          </button>
+        </div>
+        <input
+          id="num2"
+          type="number"
+          placeholder="Number 2"
+          class="border p-2 rounded w-full"
+        />
+      </div>
+      <!-- Boutons de calcul et d'effacement de l'historique -->
+      <div class="flex justify-between mb-4">
+        <button
+          id="calculate"
+          class="bg-green-500 text-white p-2 rounded flex-1 mr-2"
+        >
+          Calculate
+        </button>
+        <button id="clear-history" class="bg-red-500 text-white p-2 rounded">
+          Clear History
+        </button>
+      </div>
+      <!-- Résultat et historique -->
+      <div id="result" class="text-xl font-bold text-center mb-4"></div>
+      <div id="history" class="mt-4"></div>
+    </div>
+
+    <script>
+      // Classe de la logique métier simplifiée
+      class CalculatorUI {
+        constructor() {
+          this.history = [];
+        }
+        add(a, b) {
+          return a + b;
+        }
+        subtract(a, b) {
+          return a - b;
+        }
+        multiply(a, b) {
+          return a * b;
+        }
+        saveToHistory(a, operator, b, result) {
+          const entry = { a, operator, b, result };
+          this.history.push(entry);
+          return entry;
+        }
+        clearHistory() {
+          this.history = [];
+        }
+      }
+
+      const calculator = new CalculatorUI();
+      let currentOperation = null;
+
+      const num1Input = document.getElementById("num1");
+      const num2Input = document.getElementById("num2");
+      const resultDiv = document.getElementById("result");
+      const historyDiv = document.getElementById("history");
+      const operatorButtons = document.querySelectorAll(".operator-btn");
+
+      // Active/désactive les boutons opérateurs selon les inputs
+      function updateOperatorButtons() {
+        const num1 = num1Input.value.trim();
+        const num2 = num2Input.value.trim();
+        const enable = num1 !== "" && num2 !== "";
+        operatorButtons.forEach((btn) => {
+          btn.disabled = !enable;
+        });
+      }
+
+      num1Input.addEventListener("input", updateOperatorButtons);
+      num2Input.addEventListener("input", updateOperatorButtons);
+
+      // Sélection de l'opération (sans calculer)
+      operatorButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const a = parseFloat(num1Input.value);
+          const b = parseFloat(num2Input.value);
+          // Vérifier que les deux nombres sont valides
+          if (isNaN(a) || isNaN(b)) return;
+
+          // Récupération de l'opération et mise en évidence
+          currentOperation = button.getAttribute("data-operation");
+          operatorButtons.forEach((btn) =>
+            btn.classList.remove("ring", "ring-blue-300")
+          );
+          button.classList.add("ring", "ring-blue-300");
+        });
+      });
+
+      // Bouton "Calculate" effectue l'opération sélectionnée
+      document.getElementById("calculate").addEventListener("click", () => {
+        const a = parseFloat(num1Input.value);
+        const b = parseFloat(num2Input.value);
+        if (isNaN(a) || isNaN(b) || !currentOperation) return;
+
+        let res;
+        if (currentOperation === "add") {
+          res = calculator.add(a, b);
+          calculator.saveToHistory(a, "+", b, res);
+        } else if (currentOperation === "subtract") {
+          res = calculator.subtract(a, b);
+          calculator.saveToHistory(a, "−", b, res);
+        } else if (currentOperation === "multiply") {
+          res = calculator.multiply(a, b);
+          calculator.saveToHistory(a, "×", b, res);
+        }
+        resultDiv.textContent = `Result: ${res}`;
+        renderHistory();
+        // Réinitialiser la sélection d'opération
+        currentOperation = null;
+        operatorButtons.forEach((btn) =>
+          btn.classList.remove("ring", "ring-blue-300")
+        );
+      });
+
+      document.getElementById("clear-history").addEventListener("click", () => {
+        calculator.clearHistory();
+        historyDiv.innerHTML = "";
+      });
+
+      function renderHistory() {
+        historyDiv.innerHTML =
+          '<h2 class="text-lg font-semibold">History:</h2>';
+        calculator.history.forEach((entry) => {
+          const div = document.createElement("div");
+          div.textContent = `${entry.a} ${entry.operator} ${entry.b} = ${entry.result}`;
+          historyDiv.appendChild(div);
+        });
+      }
+
+      // Initialisation de l'état des boutons
+      updateOperatorButtons();
+    </script>
+  </body>
+</html>

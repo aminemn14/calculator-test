@@ -3,7 +3,7 @@ const path = require("path");
 
 test.beforeEach(async ({ page }) => {
   // Charger le fichier index.html en local
-  const filePath = "file://" + path.resolve(__dirname, "../src/index.html");
+  const filePath = "file://" + path.resolve(__dirname, "../public/index.html");
   await page.goto(filePath);
 });
 
