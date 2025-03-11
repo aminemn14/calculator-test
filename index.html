@@ -9,7 +9,7 @@
     <!-- Bouton de toggle pour afficher/cacher l'historique sur mobile -->
     <button
       id="toggle-history"
-      class="md:hidden fixed top-4 left-4 bg-indigo-500 text-white p-2 rounded"
+      class="lg:hidden fixed top-4 left-4 bg-indigo-500 text-white py-2 px-4 text-xl rounded"
     >
       History
     </button>
@@ -18,20 +18,22 @@
       <!-- Sidebar Historique -->
       <div
         id="historySidebar"
-        class="bg-indigo-100 border-r border-indigo-300 w-64 p-4 overflow-y-auto fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-40"
+        class="bg-indigo-100 border-r border-indigo-300 w-80 lg:w-64 p-6 lg:p-4 overflow-y-auto fixed inset-y-0 left-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40"
       >
         <!-- Bouton de fermeture pour mobile -->
         <button
           id="close-history"
-          class="md:hidden mb-4 bg-red-500 text-white p-2 rounded hover:bg-red-600"
+          class="lg:hidden mb-4 bg-red-500 text-white py-2 px-4 text-xl rounded hover:bg-red-600"
         >
           Close
         </button>
-        <h2 class="text-2xl font-semibold mb-4 text-indigo-800">Historique</h2>
-        <div id="historyList" class="space-y-2 text-indigo-900 text-sm"></div>
+        <h2 class="text-3xl lg:text-2xl font-semibold mb-4 text-indigo-800">
+          Historique
+        </h2>
+        <div id="historyList" class="space-y-2"></div>
         <button
           id="clear-history"
-          class="mt-4 w-full bg-red-500 text-white p-2 rounded hover:bg-red-600"
+          class="mt-4 w-full bg-red-500 text-white py-2 px-4 text-xl rounded hover:bg-red-600"
         >
           Effacer Historique
         </button>
@@ -39,26 +41,26 @@
 
       <!-- Zone Calculatrice -->
       <div
-        class="flex-1 flex flex-col items-center justify-center p-4 ml-0 md:ml-64"
+        class="flex-1 flex flex-col items-center justify-center p-4 ml-0 lg:ml-64"
       >
         <!-- Écran d'affichage -->
         <div
-          class="w-full max-w-md bg-gray-800 text-indigo-300 font-mono text-3xl rounded-xl p-4 mb-6 shadow-lg"
+          class="w-full max-w-full lg:max-w-md bg-gray-800 text-indigo-300 font-mono text-4xl lg:text-3xl rounded-xl p-6 lg:p-4 mb-8 lg:mb-6 shadow-lg"
         >
           <div id="calcDisplay" class="text-right min-h-[3rem] pt-1"></div>
         </div>
 
         <!-- Grille des boutons -->
-        <div class="w-full grid grid-cols-4 gap-3 max-w-md">
-          <!-- Ligne 1 : C et DEL, chacune occupant 2 colonnes -->
+        <div class="w-full grid grid-cols-4 gap-3 max-w-full lg:max-w-md">
+          <!-- Ligne 1 : C et DEL -->
           <button
-            class="calc-btn col-span-2 bg-indigo-200 hover:bg-indigo-300 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            class="calc-btn col-span-2 bg-indigo-200 hover:bg-indigo-300 p-8 lg:p-6 rounded-xl text-indigo-800 font-bold text-3xl lg:text-2xl"
             data-action="clear"
           >
             C
           </button>
           <button
-            class="calc-btn col-span-2 bg-indigo-200 hover:bg-indigo-300 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            class="calc-btn col-span-2 bg-indigo-200 hover:bg-indigo-300 p-8 lg:p-6 rounded-xl text-indigo-800 font-bold text-3xl lg:text-2xl"
             data-action="delete"
           >
             DEL
@@ -66,25 +68,25 @@
 
           <!-- Ligne 2 : 7, 8, 9, × -->
           <button
-            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-8 lg:p-6 rounded-xl text-indigo-800 font-bold text-3xl lg:text-2xl"
             data-value="7"
           >
             7
           </button>
           <button
-            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-8 lg:p-6 rounded-xl text-indigo-800 font-bold text-3xl lg:text-2xl"
             data-value="8"
           >
             8
           </button>
           <button
-            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-8 lg:p-6 rounded-xl text-indigo-800 font-bold text-3xl lg:text-2xl"
             data-value="9"
           >
             9
           </button>
           <button
-            class="calc-btn bg-indigo-500 hover:bg-indigo-600 p-6 rounded-xl text-white font-bold text-2xl"
+            class="calc-btn bg-indigo-500 hover:bg-indigo-600 p-8 lg:p-6 rounded-xl text-white font-bold text-3xl lg:text-2xl"
             data-action="multiply"
           >
             ×
@@ -92,25 +94,25 @@
 
           <!-- Ligne 3 : 4, 5, 6, − -->
           <button
-            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-8 lg:p-6 rounded-xl text-indigo-800 font-bold text-3xl lg:text-2xl"
             data-value="4"
           >
             4
           </button>
           <button
-            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-8 lg:p-6 rounded-xl text-indigo-800 font-bold text-3xl lg:text-2xl"
             data-value="5"
           >
             5
           </button>
           <button
-            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-8 lg:p-6 rounded-xl text-indigo-800 font-bold text-3xl lg:text-2xl"
             data-value="6"
           >
             6
           </button>
           <button
-            class="calc-btn bg-indigo-500 hover:bg-indigo-600 p-6 rounded-xl text-white font-bold text-2xl"
+            class="calc-btn bg-indigo-500 hover:bg-indigo-600 p-8 lg:p-6 rounded-xl text-white font-bold text-3xl lg:text-2xl"
             data-action="subtract"
           >
             −
@@ -118,25 +120,25 @@
 
           <!-- Ligne 4 : 1, 2, 3, + -->
           <button
-            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-8 lg:p-6 rounded-xl text-indigo-800 font-bold text-3xl lg:text-2xl"
             data-value="1"
           >
             1
           </button>
           <button
-            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-8 lg:p-6 rounded-xl text-indigo-800 font-bold text-3xl lg:text-2xl"
             data-value="2"
           >
             2
           </button>
           <button
-            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-8 lg:p-6 rounded-xl text-indigo-800 font-bold text-3xl lg:text-2xl"
             data-value="3"
           >
             3
           </button>
           <button
-            class="calc-btn bg-indigo-500 hover:bg-indigo-600 p-6 rounded-xl text-white font-bold text-2xl"
+            class="calc-btn bg-indigo-500 hover:bg-indigo-600 p-8 lg:p-6 rounded-xl text-white font-bold text-3xl lg:text-2xl"
             data-action="add"
           >
             +
@@ -144,19 +146,19 @@
 
           <!-- Ligne 5 : 0, ., = -->
           <button
-            class="calc-btn col-span-2 bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            class="calc-btn col-span-2 bg-indigo-100 hover:bg-indigo-200 p-8 lg:p-6 rounded-xl text-indigo-800 font-bold text-3xl lg:text-2xl"
             data-value="0"
           >
             0
           </button>
           <button
-            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-8 lg:p-6 rounded-xl text-indigo-800 font-bold text-3xl lg:text-2xl"
             data-value="."
           >
             .
           </button>
           <button
-            class="calc-btn bg-indigo-700 hover:bg-indigo-800 p-6 rounded-xl text-white font-bold text-2xl"
+            class="calc-btn bg-indigo-700 hover:bg-indigo-800 p-8 lg:p-6 rounded-xl text-white font-bold text-3xl lg:text-2xl"
             data-action="calculate"
           >
             =
@@ -241,10 +243,11 @@
           container.className =
             "bg-indigo-200 hover:bg-indigo-300 py-2 px-4 rounded transition duration-150";
           const exprDiv = document.createElement("div");
-          exprDiv.className = "text-md text-indigo-900";
+          exprDiv.className = "text-xl lg:text-base text-indigo-900";
           exprDiv.textContent = spacedExpr;
           const resultDiv = document.createElement("div");
-          resultDiv.className = "text-indigo-700 font-bold text-xl text-right";
+          resultDiv.className =
+            "text-indigo-700 font-bold text-2xl lg:text-lg text-right";
           resultDiv.textContent = entry.result;
           container.appendChild(exprDiv);
           container.appendChild(resultDiv);
