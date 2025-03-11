@@ -23,7 +23,7 @@
 
       <!-- Zone Calculatrice -->
       <div class="flex-1 flex flex-col items-center justify-center p-4">
-        <!-- Écran d'affichage (largeur identique aux touches) -->
+        <!-- Écran d'affichage -->
         <div
           class="w-full max-w-md bg-gray-800 text-indigo-300 font-mono text-3xl rounded-xl p-4 mb-6 shadow-lg"
         >
@@ -214,7 +214,6 @@
       document.querySelectorAll(".calc-btn").forEach((button) => {
         button.addEventListener("click", () => {
           if (button.dataset.value !== undefined) {
-            // Bouton numérique ou point
             calculator.append(button.dataset.value);
             updateDisplay();
           } else if (button.dataset.action) {
