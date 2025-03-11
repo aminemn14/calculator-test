@@ -55,7 +55,7 @@ npm run lint
 
 ### Project Structure
 
-• public/: Contains the index.html file with the user interface.
+• root/: Contains the index.html file with the user interface.
 • src/: Contains the business logic (e.g., calculator.js).
 • tests/: Contains unit tests written with Jest.
 • e2e/: Contains end-to-end tests written with Playwright.
@@ -77,7 +77,7 @@ npm run lint
 
 ### Usage
 
-1. Open the public/index.html file in your browser.
+1. Open the index.html file in your browser.
 2. Enter numbers into the input fields.
 3. Select an arithmetic operation by clicking the corresponding button (enabled only if both numbers are provided).
 4. Click on the Calculate button to perform the operation.

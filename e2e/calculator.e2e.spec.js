@@ -2,8 +2,8 @@ const { test, expect } = require("@playwright/test");
 const path = require("path");
 
 test.beforeEach(async ({ page }) => {
-  // Charger le fichier index.html depuis le dossier public
-  const filePath = "file://" + path.resolve(__dirname, "../public/index.html");
+  // Charger le fichier index.html
+  const filePath = "file://" + path.resolve(__dirname, "../index.html");
   await page.goto(filePath);
 });
 
