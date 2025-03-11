@@ -26,7 +26,7 @@ npm install
 To run the unit tests, use:
 
 ```bash
-npm install
+npm run test:unit
 ```
 
 ### End-to-End Tests (Playwright)
