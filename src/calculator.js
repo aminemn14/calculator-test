@@ -1,28 +1,38 @@
 class Calculator {
   constructor() {
+    this.expression = "";
     this.history = [];
   }
 
-  add(a, b) {
-    const result = a + b;
-    this._saveToHistory(a, "+", b, result);
-    return result;
+  append(char) {
+    const operators = ["+", "−", "×"];
+    const lastChar = this.expression.slice(-1);
+    if (operators.includes(char) && operators.includes(lastChar)) {
+      this.expression = this.expression.slice(0, -1) + char;
+    } else {
+      this.expression += char;
+    }
   }
 
-  subtract(a, b) {
-    const result = a - b;
-    this._saveToHistory(a, "-", b, result);
-    return result;
+  clear() {
+    this.expression = "";
   }
 
-  multiply(a, b) {
-    const result = a * b;
-    this._saveToHistory(a, "*", b, result);
-    return result;
+  delete() {
+    this.expression = this.expression.slice(0, -1);
   }
 
-  _saveToHistory(a, operator, b, result) {
-    this.history.push({ a, operator, b, result });
+  compute() {
+    try {
+      let expr = this.expression.replace(/×/g, "*").replace(/−/g, "-");
+      // Convertit chaque nombre dans l'expression en sa représentation standard
+      expr = expr.replace(/\d+(\.\d+)?/g, (num) => String(Number(num)));
+      let result = eval(expr);
+      this.history.push({ expr: this.expression, result });
+      this.expression = result.toString();
+    } catch (e) {
+      this.expression = "Error";
+    }
   }
 
   getHistory() {

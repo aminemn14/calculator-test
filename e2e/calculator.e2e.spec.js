@@ -2,44 +2,98 @@ const { test, expect } = require("@playwright/test");
 const path = require("path");
 
 test.beforeEach(async ({ page }) => {
-  // Charger le fichier index.html
   const filePath = "file://" + path.resolve(__dirname, "../index.html");
   await page.goto(filePath);
 });
 
-test("should perform addition and display result and history", async ({
-  page,
-}) => {
-  await page.fill("#num1", "10");
-  await page.fill("#num2", "5");
-  // Sélectionner l'opération addition
-  await page.click('button[data-operation="add"]');
-  // Cliquer sur le bouton Calculate pour effectuer le calcul
-  await page.click("#calculate");
-
-  // Vérifier le résultat affiché
-  const resultText = await page.textContent("#result");
-  expect(resultText).toContain("15");
-
-  // Vérifier que l'historique affiche l'opération
-  const historyText = await page.textContent("#history");
-  expect(historyText).toContain("10 + 5 = 15");
+// Test 1 : Vérifie que les boutons numériques affichent correctement les chiffres saisis
+test("should display numbers as they are pressed", async ({ page }) => {
+  await page.click('button[data-value="1"]');
+  await page.click('button[data-value="0"]');
+  const display = await page.textContent("#calcDisplay");
+  expect(display).toBe("10");
 });
 
-test("should clear history when clear button is clicked", async ({ page }) => {
-  // Effectuer une opération pour ajouter une entrée à l'historique
-  await page.fill("#num1", "20");
-  await page.fill("#num2", "4");
-  await page.click('button[data-operation="multiply"]');
-  await page.click("#calculate");
+// Test 2 : Vérifie que l'opérateur est correctement ajouté à l'expression affichée
+test("should append operator and display the expression", async ({ page }) => {
+  await page.click('button[data-value="1"]');
+  await page.click('button[data-value="0"]');
+  await page.click('button[data-action="add"]');
+  await page.click('button[data-value="2"]');
+  const display = await page.textContent("#calcDisplay");
+  expect(display).toBe("10+2");
+});
 
-  let historyText = await page.textContent("#history");
-  // Pour la multiplication, l'opérateur affiché est "×"
-  expect(historyText).toContain("20 × 4 = 80");
+// Test 3 : Vérifie que lorsqu'un opérateur est appuyé consécutivement, le dernier remplace le précédent
+test("should replace operator if pressed consecutively", async ({ page }) => {
+  await page.click('button[data-value="1"]');
+  await page.click('button[data-action="add"]');
+  await page.click('button[data-action="subtract"]');
+  const display = await page.textContent("#calcDisplay");
+  expect(display).toBe("1−");
+});
 
-  // Cliquer sur le bouton Clear History
+// Test 4 : Vérifie que le bouton "C" efface l'expression et affiche "0" en cas d'expression vide
+test("should clear expression when C is pressed", async ({ page }) => {
+  await page.click('button[data-value="1"]');
+  await page.click('button[data-action="clear"]');
+  const display = await page.textContent("#calcDisplay");
+  expect(display).toBe("0");
+});
+
+// Test 5 : Vérifie que le bouton "DEL" supprime le dernier caractère de l'expression affichée
+test("should delete last character when DEL is pressed", async ({ page }) => {
+  await page.click('button[data-value="1"]');
+  await page.click('button[data-value="2"]');
+  await page.click('button[data-action="delete"]');
+  const display = await page.textContent("#calcDisplay");
+  expect(display).toBe("1");
+});
+
+// Test 6 : Vérifie que la multiplication est correctement calculée (2×2 = 4)
+test("should compute multiplication correctly", async ({ page }) => {
+  await page.click('button[data-value="2"]');
+  await page.click('button[data-action="multiply"]');
+  await page.click('button[data-value="2"]');
+  await page.click('button[data-action="calculate"]');
+  const display = await page.textContent("#calcDisplay");
+  expect(display).toBe("4");
+});
+
+// Test 7 : Vérifie que l'expression avec des zéros en tête est correctement évaluée (exemple : "02×2" donne 4)
+test("should handle expression with leading zeros", async ({ page }) => {
+  await page.click('button[data-value="0"]');
+  await page.click('button[data-value="2"]');
+  await page.click('button[data-action="multiply"]');
+  await page.click('button[data-value="2"]');
+  await page.click('button[data-action="calculate"]');
+  const display = await page.textContent("#calcDisplay");
+  expect(display).toBe("4");
+});
+
+// Test 8 : Vérifie que l'historique se met à jour après le calcul d'une expression
+test("should update history after computation", async ({ page }) => {
+  await page.click('button[data-value="1"]');
+  await page.click('button[data-value="0"]');
+  await page.click('button[data-action="add"]');
+  await page.click('button[data-value="2"]');
+  await page.click('button[data-action="calculate"]');
+  const historyText = await page.textContent("#historyList");
+  expect(historyText).toContain("10+2 = 12");
+});
+
+// Test 9 : Vérifie que le bouton d'effacement de l'historique vide bien la liste affichée
+test("should clear history when the clear-history button is clicked", async ({
+  page,
+}) => {
+  // Effectuer un calcul pour remplir l'historique
+  await page.click('button[data-value="1"]');
+  await page.click('button[data-value="0"]');
+  await page.click('button[data-action="add"]');
+  await page.click('button[data-value="2"]');
+  await page.click('button[data-action="calculate"]');
+  // Cliquer sur le bouton d'effacement de l'historique
   await page.click("#clear-history");
-  historyText = await page.textContent("#history");
-  // Après effacement, le header "History:" est affiché (si vous modifiez le code pour toujours afficher ce header)
-  expect(historyText.trim()).toBe("History:");
+  const historyText = await page.textContent("#historyList");
+  expect(historyText.trim()).toBe("");
 });

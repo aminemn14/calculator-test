@@ -1,190 +1,261 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>Calculator</title>
+    <title>Calculatrice</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="bg-gray-100 flex items-center justify-center h-screen">
-    <div class="bg-white p-6 rounded shadow-md w-full max-w-md">
-      <h1 class="text-2xl font-bold mb-6 text-center">Calculator</h1>
-      <!-- Zone d'inputs et opérateurs en flex -->
-      <div class="flex items-center mb-4 space-x-4">
-        <input
-          id="num1"
-          type="number"
-          placeholder="Number 1"
-          class="border p-2 rounded w-full"
-        />
-        <!-- Colonne des boutons d'opération -->
-        <div class="flex flex-col space-y-2">
+  <body class="bg-indigo-50">
+    <div class="flex h-screen">
+      <!-- Sidebar Historique toujours visible -->
+      <div
+        class="bg-indigo-100 border-r border-indigo-300 w-64 p-4 overflow-y-auto"
+      >
+        <h2 class="text-2xl font-semibold mb-4 text-indigo-800">Historique</h2>
+        <div id="historyList" class="space-y-2 text-indigo-900 text-sm"></div>
+        <button
+          id="clear-history"
+          class="mt-4 w-full bg-red-500 text-white p-2 rounded hover:bg-red-600"
+        >
+          Effacer Historique
+        </button>
+      </div>
+
+      <!-- Zone Calculatrice -->
+      <div class="flex-1 flex flex-col items-center justify-center p-4">
+        <!-- Écran d'affichage (largeur identique aux touches) -->
+        <div
+          class="w-full max-w-md bg-gray-800 text-indigo-300 font-mono text-3xl rounded-xl p-4 mb-6 shadow-lg"
+        >
+          <div id="calcDisplay" class="text-right min-h-[3rem] pt-1"></div>
+        </div>
+
+        <!-- Grille des boutons avec touches agrandies -->
+        <div class="w-full grid grid-cols-4 gap-3 max-w-md">
+          <!-- Ligne 1 : C et DEL, chacune occupant 2 colonnes -->
           <button
-            data-operation="add"
-            class="operator-btn bg-blue-500 text-white p-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled
+            class="calc-btn col-span-2 bg-indigo-200 hover:bg-indigo-300 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            data-action="clear"
           >
-            +
+            C
           </button>
           <button
-            data-operation="subtract"
-            class="operator-btn bg-blue-500 text-white p-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled
+            class="calc-btn col-span-2 bg-indigo-200 hover:bg-indigo-300 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            data-action="delete"
           >
-            −
+            DEL
+          </button>
+
+          <!-- Ligne 2 : 7, 8, 9, × -->
+          <button
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            data-value="7"
+          >
+            7
           </button>
           <button
-            data-operation="multiply"
-            class="operator-btn bg-blue-500 text-white p-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            data-value="8"
+          >
+            8
+          </button>
+          <button
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            data-value="9"
+          >
+            9
+          </button>
+          <button
+            class="calc-btn bg-indigo-500 hover:bg-indigo-600 p-6 rounded-xl text-white font-bold text-2xl"
+            data-action="multiply"
           >
             ×
           </button>
+
+          <!-- Ligne 3 : 4, 5, 6, − -->
+          <button
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            data-value="4"
+          >
+            4
+          </button>
+          <button
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            data-value="5"
+          >
+            5
+          </button>
+          <button
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            data-value="6"
+          >
+            6
+          </button>
+          <button
+            class="calc-btn bg-indigo-500 hover:bg-indigo-600 p-6 rounded-xl text-white font-bold text-2xl"
+            data-action="subtract"
+          >
+            −
+          </button>
+
+          <!-- Ligne 4 : 1, 2, 3, + -->
+          <button
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            data-value="1"
+          >
+            1
+          </button>
+          <button
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            data-value="2"
+          >
+            2
+          </button>
+          <button
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            data-value="3"
+          >
+            3
+          </button>
+          <button
+            class="calc-btn bg-indigo-500 hover:bg-indigo-600 p-6 rounded-xl text-white font-bold text-2xl"
+            data-action="add"
+          >
+            +
+          </button>
+
+          <!-- Ligne 5 : 0, ., = -->
+          <button
+            class="calc-btn col-span-2 bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            data-value="0"
+          >
+            0
+          </button>
+          <button
+            class="calc-btn bg-indigo-100 hover:bg-indigo-200 p-6 rounded-xl text-indigo-800 font-bold text-2xl"
+            data-value="."
+          >
+            .
+          </button>
+          <button
+            class="calc-btn bg-indigo-700 hover:bg-indigo-800 p-6 rounded-xl text-white font-bold text-2xl"
+            data-action="calculate"
+          >
+            =
+          </button>
         </div>
-        <input
-          id="num2"
-          type="number"
-          placeholder="Number 2"
-          class="border p-2 rounded w-full"
-        />
       </div>
-      <!-- Boutons de calcul et d'effacement de l'historique -->
-      <div class="flex justify-between mb-4">
-        <button
-          id="calculate"
-          class="bg-green-500 text-white p-2 rounded flex-1 mr-2"
-        >
-          Calculate
-        </button>
-        <button id="clear-history" class="bg-red-500 text-white p-2 rounded">
-          Clear History
-        </button>
-      </div>
-      <!-- Résultat et historique -->
-      <div id="result" class="text-xl font-bold text-center mb-4"></div>
-      <div id="history" class="mt-4"></div>
     </div>
 
     <script>
-      // Classe de la logique métier simplifiée avec persistance via localStorage
-      class CalculatorUI {
+      // Classe de la calculatrice basée sur une expression affichée
+      class Calculator {
         constructor() {
-          // Charger l'historique depuis le localStorage s'il existe
-          const storedHistory = localStorage.getItem("calculatorHistory");
-          this.history = storedHistory ? JSON.parse(storedHistory) : [];
+          this.expression = "";
+          this.history =
+            JSON.parse(localStorage.getItem("calculatorHistory")) || [];
         }
-        add(a, b) {
-          return a + b;
+        append(char) {
+          const operators = ["+", "−", "×"];
+          const lastChar = this.expression.slice(-1);
+          // Si un opérateur est appuyé après un autre opérateur, remplace le dernier
+          if (operators.includes(char) && operators.includes(lastChar)) {
+            this.expression = this.expression.slice(0, -1) + char;
+          } else {
+            this.expression += char;
+          }
         }
-        subtract(a, b) {
-          return a - b;
+        clear() {
+          this.expression = "";
         }
-        multiply(a, b) {
-          return a * b;
+        delete() {
+          this.expression = this.expression.slice(0, -1);
         }
-        saveToHistory(a, operator, b, result) {
-          const entry = { a, operator, b, result };
+        compute() {
+          try {
+            let expr = this.expression.replace(/×/g, "*").replace(/−/g, "-");
+            // Conversion des nombres avec des zéros en tête en leur forme numérique standard
+            expr = expr.replace(/\d+(\.\d+)?/g, (num) => String(Number(num)));
+            let result = eval(expr);
+            this.saveToHistory(this.expression, result);
+            this.expression = result.toString();
+          } catch (e) {
+            this.expression = "Error";
+          }
+        }
+        saveToHistory(expr, result) {
+          const entry = { expr, result };
           this.history.push(entry);
-          // Mettre à jour le localStorage avec le nouvel historique
           localStorage.setItem(
             "calculatorHistory",
             JSON.stringify(this.history)
           );
-          return entry;
-        }
-        clearHistory() {
-          this.history = [];
-          // Supprimer l'historique du localStorage
-          localStorage.removeItem("calculatorHistory");
         }
       }
 
-      const calculator = new CalculatorUI();
-      let currentOperation = null;
+      const calculator = new Calculator();
+      const display = document.getElementById("calcDisplay");
+      const historyList = document.getElementById("historyList");
 
-      const num1Input = document.getElementById("num1");
-      const num2Input = document.getElementById("num2");
-      const resultDiv = document.getElementById("result");
-      const historyDiv = document.getElementById("history");
-      const operatorButtons = document.querySelectorAll(".operator-btn");
+      function updateDisplay() {
+        display.textContent = calculator.expression || "0";
+      }
 
-      // Active/désactive les boutons opérateurs selon les inputs
-      function updateOperatorButtons() {
-        const num1 = num1Input.value.trim();
-        const num2 = num2Input.value.trim();
-        const enable = num1 !== "" && num2 !== "";
-        operatorButtons.forEach((btn) => {
-          btn.disabled = !enable;
+      function renderHistory() {
+        historyList.innerHTML = "";
+        if (calculator.history.length === 0) return;
+        calculator.history.forEach((entry) => {
+          const div = document.createElement("div");
+          div.textContent = `${entry.expr} = ${entry.result}`;
+          historyList.appendChild(div);
         });
       }
 
-      num1Input.addEventListener("input", updateOperatorButtons);
-      num2Input.addEventListener("input", updateOperatorButtons);
-
-      // Sélection de l'opération (sans calculer)
-      operatorButtons.forEach((button) => {
+      document.querySelectorAll(".calc-btn").forEach((button) => {
         button.addEventListener("click", () => {
-          const a = parseFloat(num1Input.value);
-          const b = parseFloat(num2Input.value);
-          // Vérifier que les deux nombres sont valides
-          if (isNaN(a) || isNaN(b)) return;
-
-          // Récupération de l'opération et mise en évidence
-          currentOperation = button.getAttribute("data-operation");
-          operatorButtons.forEach((btn) =>
-            btn.classList.remove("ring", "ring-blue-300")
-          );
-          button.classList.add("ring", "ring-blue-300");
+          if (button.dataset.value !== undefined) {
+            // Bouton numérique ou point
+            calculator.append(button.dataset.value);
+            updateDisplay();
+          } else if (button.dataset.action) {
+            switch (button.dataset.action) {
+              case "clear":
+                calculator.clear();
+                updateDisplay();
+                break;
+              case "delete":
+                calculator.delete();
+                updateDisplay();
+                break;
+              case "add":
+                calculator.append("+");
+                updateDisplay();
+                break;
+              case "subtract":
+                calculator.append("−");
+                updateDisplay();
+                break;
+              case "multiply":
+                calculator.append("×");
+                updateDisplay();
+                break;
+              case "calculate":
+                calculator.compute();
+                updateDisplay();
+                renderHistory();
+                break;
+            }
+          }
         });
-      });
-
-      // Bouton "Calculate" effectue l'opération sélectionnée
-      document.getElementById("calculate").addEventListener("click", () => {
-        const a = parseFloat(num1Input.value);
-        const b = parseFloat(num2Input.value);
-        if (isNaN(a) || isNaN(b) || !currentOperation) return;
-
-        let res;
-        if (currentOperation === "add") {
-          res = calculator.add(a, b);
-          calculator.saveToHistory(a, "+", b, res);
-        } else if (currentOperation === "subtract") {
-          res = calculator.subtract(a, b);
-          calculator.saveToHistory(a, "−", b, res);
-        } else if (currentOperation === "multiply") {
-          res = calculator.multiply(a, b);
-          calculator.saveToHistory(a, "×", b, res);
-        }
-        resultDiv.textContent = `Result: ${res}`;
-        renderHistory();
-        // Réinitialiser la sélection d'opération
-        currentOperation = null;
-        operatorButtons.forEach((btn) =>
-          btn.classList.remove("ring", "ring-blue-300")
-        );
       });
 
       document.getElementById("clear-history").addEventListener("click", () => {
-        calculator.clearHistory();
+        calculator.history = [];
+        localStorage.removeItem("calculatorHistory");
         renderHistory();
       });
 
-      function renderHistory() {
-        // Afficher le titre uniquement si l'historique contient des entrées
-        if (calculator.history.length === 0) {
-          historyDiv.innerHTML = "";
-        } else {
-          historyDiv.innerHTML =
-            '<h2 class="text-lg font-semibold">History:</h2>';
-          calculator.history.forEach((entry) => {
-            const div = document.createElement("div");
-            div.textContent = `${entry.a} ${entry.operator} ${entry.b} = ${entry.result}`;
-            historyDiv.appendChild(div);
-          });
-        }
-      }
-
-      // Initialisation de l'état des boutons et affichage de l'historique sauvegardé
-      updateOperatorButtons();
+      updateDisplay();
       renderHistory();
     </script>
   </body>
